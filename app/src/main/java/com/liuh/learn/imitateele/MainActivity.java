@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -38,6 +40,9 @@ import com.liuh.learn.imitateele.baidumap.CoordinateConvertUtil;
 import com.liuh.learn.imitateele.base.BaseActivity;
 import com.liuh.learn.imitateele.listener.PermissionListener;
 import com.liuh.learn.imitateele.utils.UIUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.Timer;
@@ -428,6 +433,33 @@ public class MainActivity extends BaseActivity {
         }
     };
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageReceived(MessageEvent messageEvent) {
+        if (messageEvent.getAction() == MessageEvent.ACTION_SITE_CHOOSED) {
+            Log.e("-----------------", "onMessageReceived...ACTION_SITE_CHOOSED");
+            PoiInfo poiInfo = (PoiInfo) messageEvent.getMessage();
+
+            mapCenterLatlng = poiInfo.location;
+
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(mapCenterLatlng).zoom(20.0f);
+
+            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+            tvSiteName.setText(poiInfo.name);
+            etSiteAddress.setText(poiInfo.address);
+
+//            mBaidumap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        }
+    }
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        registEventBus(this);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -443,6 +475,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregistEventBus(this);
         mLocationClient.stop();
         mSearch.destroy();
         timer.cancel();
