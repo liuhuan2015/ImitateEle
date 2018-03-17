@@ -24,6 +24,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.LogoPosition;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -100,11 +101,13 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         mBaiduMap = mMapView.getMap();
-
+        mMapView.setLogoPosition(LogoPosition.logoPostionRightBottom);
+        mMapView.showScaleControl(false);//隐藏地图比例尺
         mSearch = GeoCoder.newInstance();
 
         mBaiduMap.setMaxAndMinZoomLevel(20.0f, 10.0f);
         mBaiduMap.setMyLocationEnabled(true);
+
 
         mLocationClient = new LocationClient(this);
         mLocationClient.registerLocationListener(locationListener);
