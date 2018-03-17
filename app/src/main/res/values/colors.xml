@@ -7,10 +7,16 @@
     <color name="pressed_color">#60C0C0C0</color>
 
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 
     <color name="gray_db">#dbdbdb</color>
 
     <color name="gray_68">#686868</color>
 
+    <color name="gray_e8">#e8e8e8</color>
+
     <color name="green_4D">#4DC060</color>
+    <color name="gray_96">#969696</color>
+
+    <color name="blue">#3695f3</color> <!-- 蓝色 -->
 </resources>

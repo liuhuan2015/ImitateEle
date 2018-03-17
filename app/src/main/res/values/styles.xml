@@ -10,4 +10,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--因为在手上的华为手机和小米手机上面原生的AlertDialog的按钮颜色显示不一致,所以在这里使用一个style统一一下-->
+    <style name="permissionAlertDialog" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>
