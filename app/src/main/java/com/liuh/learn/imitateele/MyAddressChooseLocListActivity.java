@@ -76,6 +76,7 @@ public class MyAddressChooseLocListActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        UIUtils.hideSoftInput(etSiteSearchInput);
     }
 
     @Override

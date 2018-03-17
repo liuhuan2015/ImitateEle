@@ -57,7 +57,9 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".MyAddressChooseLocListActivity"></activity>
+        <activity
+            android:name=".MyAddressChooseLocListActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>
