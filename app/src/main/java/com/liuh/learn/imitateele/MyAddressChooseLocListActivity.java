@@ -160,10 +160,13 @@ public class MyAddressChooseLocListActivity extends BaseActivity {
                         //城市Fragment处于显示状态
                         if (searchListFragment == null) {
                             searchListFragment = new MyDeviceAddSiteChooseSearchListFragment();
+                            transaction.hide(searchCityFragment);
+                            transaction.add(R.id.fl_site_search_list, searchListFragment);
+                        } else {
+                            transaction.hide(searchCityFragment);
+                            transaction.show(searchListFragment);
                         }
 
-                        transaction.hide(searchCityFragment);
-                        transaction.show(searchListFragment);
                         isSearchCityFraShow = false;
                         ivSiteCityArrow.setBackgroundResource(R.drawable.cart_icon_down_arrow);
                     } else {

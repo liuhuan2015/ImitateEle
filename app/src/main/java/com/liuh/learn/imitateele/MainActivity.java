@@ -240,9 +240,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_relocate, R.id.et_site_address, R.id.tv_site_confirm, R.id.rl_site_name_choose})
+    @OnClick({R.id.ll_back, R.id.rl_relocate, R.id.et_site_address, R.id.tv_site_confirm, R.id.rl_site_name_choose})
     void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ll_back:
+                break;
             case R.id.rl_relocate:
                 //重新定位一次,并将地图标记点移动到定位位置附近
                 mLocationClient.restart();

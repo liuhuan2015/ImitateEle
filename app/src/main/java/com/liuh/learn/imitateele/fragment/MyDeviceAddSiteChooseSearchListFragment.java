@@ -70,6 +70,9 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
         rvSiteList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.bindToRecyclerView(rvSiteList);
 //        mAdapter.setEmptyView(R.layout.view_load_empty);
+        mPoiSearch = PoiSearch.newInstance();
+
+        mPoiSearch.setOnGetPoiSearchResultListener(poiListener);
     }
 
     @Override
@@ -93,9 +96,7 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
                 currentLatLng = bundle.getParcelable("curLatlng");
                 searchKeyWord = bundle.getString("searchKeyword");
                 Log.e("-----------------", "searchKeyWord : " + searchKeyWord);
-                mPoiSearch = PoiSearch.newInstance();
 
-                mPoiSearch.setOnGetPoiSearchResultListener(poiListener);
 
                 mPoiSearch.searchNearby(new PoiNearbySearchOption()
                         .keyword(searchKeyWord)
