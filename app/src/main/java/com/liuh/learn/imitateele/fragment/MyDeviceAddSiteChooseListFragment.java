@@ -78,7 +78,6 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
         rvSiteList.setAdapter(mAdapter);
         rvSiteList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.bindToRecyclerView(rvSiteList);
-        mAdapter.setEmptyView(R.layout.view_load_empty);
     }
 
     @Override
@@ -150,6 +149,7 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
             if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                 //没有找到检索结果
                 Log.e("----------", "没有找到检索结果");
+                mAdapter.setEmptyView(R.layout.view_load_empty);
             }
             //获取反向地理编码结果
             poiInfos = result.getPoiList();
@@ -157,6 +157,8 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
                 mAdapter.setNewData(poiInfos);
             } else {
                 Log.e("--------------", " poiInfos == null || poiInfos.size() ==0");
+                mAdapter.setEmptyView(R.layout.view_load_empty);
+//                mAdapter.setNewData(null);
             }
 
         }
@@ -173,9 +175,13 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
                 if (poiInfos != null && poiInfos.size() > 0) {
                     mAdapter.setNewData(poiInfos);
                 } else {
+                    mAdapter.setEmptyView(R.layout.view_load_empty);
+                    mAdapter.setNewData(null);
                     Log.e("--------------", " poiInfos == null || poiInfos.size() ==0");
                 }
             } else {
+                mAdapter.setEmptyView(R.layout.view_load_empty);
+                mAdapter.setNewData(null);
                 Log.e("--------------", "result==null||result.getAllPoi()==null");
             }
         }

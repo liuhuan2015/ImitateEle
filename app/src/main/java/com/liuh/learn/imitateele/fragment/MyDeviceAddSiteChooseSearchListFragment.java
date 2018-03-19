@@ -74,7 +74,7 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
         rvSiteList.setAdapter(mAdapter);
         rvSiteList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.bindToRecyclerView(rvSiteList);
-        mAdapter.setEmptyView(R.layout.view_load_empty);
+
         mPoiSearch = PoiSearch.newInstance();
 
         mPoiSearch.setOnGetPoiSearchResultListener(poiListener);
@@ -130,10 +130,12 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
                     mAdapter.setNewData(poiInfos);
                 } else {
                     Log.e("--------------", " poiInfos == null || poiInfos.size() ==0");
+                    mAdapter.setEmptyView(R.layout.view_load_empty);
                     mAdapter.setNewData(null);
                 }
             } else {
                 Log.e("--------------", "result==null||result.getAllPoi()==null");
+                mAdapter.setEmptyView(R.layout.view_load_empty);
                 mAdapter.setNewData(null);
             }
         }
