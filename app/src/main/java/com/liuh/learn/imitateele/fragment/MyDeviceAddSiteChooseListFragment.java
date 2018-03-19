@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -44,6 +45,9 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
     @BindView(R.id.rv_sitelist)
     RecyclerView rvSiteList;
 
+    @BindView(R.id.loading_layout)
+    RelativeLayout loadingLayout;
+
     private String searchTypeStr;//全部;写字楼;小区;学校
 
     private LatLng currentLatLng;//坐标点位置
@@ -74,7 +78,7 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
         rvSiteList.setAdapter(mAdapter);
         rvSiteList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.bindToRecyclerView(rvSiteList);
-//        mAdapter.setEmptyView(R.layout.view_load_empty);
+        mAdapter.setEmptyView(R.layout.view_load_empty);
     }
 
     @Override
@@ -96,6 +100,7 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
                 mSearch.setOnGetGeoCodeResultListener(listener);
                 mSearch.reverseGeoCode(new ReverseGeoCodeOption()
                         .location(currentLatLng));
+                loadingLayout.setVisibility(View.VISIBLE);
             } else if ("写字楼".equals(searchTypeStr) || "小区".equals(searchTypeStr) || "学校".equals(searchTypeStr)) {
 
                 mPoiSearch = PoiSearch.newInstance();
@@ -107,6 +112,7 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
                         .location(currentLatLng)
                         .radius(1000)
                         .pageNum(20));
+                loadingLayout.setVisibility(View.VISIBLE);
             }
         } else {
             UIUtils.showToast("发生错误:坐标值为空");
@@ -133,12 +139,13 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
             if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                 //没有检索到结果
             }
-
+            loadingLayout.setVisibility(View.GONE);
             //获取地理编码结果
         }
 
         @Override
         public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+            loadingLayout.setVisibility(View.GONE);
 
             if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                 //没有找到检索结果
@@ -159,7 +166,7 @@ public class MyDeviceAddSiteChooseListFragment extends BaseFragment {
 
         public void onGetPoiResult(PoiResult result) {
             //获取POI检索结果
-
+            loadingLayout.setVisibility(View.GONE);
             if (result != null && result.getAllPoi() != null) {
 
                 poiInfos = result.getAllPoi();

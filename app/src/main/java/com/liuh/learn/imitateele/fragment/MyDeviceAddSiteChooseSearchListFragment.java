@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -20,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liuh.learn.imitateele.MessageEvent;
 import com.liuh.learn.imitateele.R;
 import com.liuh.learn.imitateele.adapter.MyDeviceAddSiteSearchListAdapter;
+import com.liuh.learn.imitateele.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,6 +41,9 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
 
     @BindView(R.id.rv_sitelist)
     RecyclerView rvSiteList;
+
+    @BindView(R.id.loading_layout)
+    RelativeLayout loadingLayout;
 
     private PoiSearch mPoiSearch;
 
@@ -69,7 +74,7 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
         rvSiteList.setAdapter(mAdapter);
         rvSiteList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.bindToRecyclerView(rvSiteList);
-//        mAdapter.setEmptyView(R.layout.view_load_empty);
+        mAdapter.setEmptyView(R.layout.view_load_empty);
         mPoiSearch = PoiSearch.newInstance();
 
         mPoiSearch.setOnGetPoiSearchResultListener(poiListener);
@@ -91,6 +96,7 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
     public void onMessageReceived(MessageEvent messageEvent) {
         if (messageEvent.getAction() == MessageEvent.ACTION_SITE_SEARCH_KEYWORD) {
 
+            loadingLayout.setVisibility(View.VISIBLE);
             Bundle bundle = (Bundle) messageEvent.getMessage();
             if (bundle != null) {
                 currentLatLng = bundle.getParcelable("curLatlng");
@@ -104,6 +110,10 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
                         .location(currentLatLng)
                         .radius(1000)
                         .pageNum(20));
+            } else {
+                UIUtils.showToast("发生参数错误");
+                loadingLayout.setVisibility(View.GONE);
+                mAdapter.setNewData(null);
             }
         }
     }
@@ -112,7 +122,7 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
 
         public void onGetPoiResult(PoiResult result) {
             //获取POI检索结果
-
+            loadingLayout.setVisibility(View.GONE);
             if (result != null && result.getAllPoi() != null) {
 
                 poiInfos = result.getAllPoi();
@@ -120,6 +130,7 @@ public class MyDeviceAddSiteChooseSearchListFragment extends BaseFragment {
                     mAdapter.setNewData(poiInfos);
                 } else {
                     Log.e("--------------", " poiInfos == null || poiInfos.size() ==0");
+                    mAdapter.setNewData(null);
                 }
             } else {
                 Log.e("--------------", "result==null||result.getAllPoi()==null");

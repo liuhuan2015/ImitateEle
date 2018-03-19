@@ -8,17 +8,29 @@
         android:id="@+id/tv_city_index"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#999999"
-        android:padding="7dp"
+        android:background="@color/gray_e8"
+        android:paddingBottom="7dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="7dp"
         android:text="A"
+        android:textSize="16sp"
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/tv_city"
+        android:id="@+id/tv_city_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="宋江"
-        android:textSize="16sp" />
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="10dp"
+        android:text="阿坝县"
+        android:textSize="16sp"  />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginLeft="12dp"
+        android:background="#DADADA" />
 
 </LinearLayout>

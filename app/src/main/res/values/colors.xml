@@ -19,4 +19,6 @@
     <color name="gray_96">#969696</color>
 
     <color name="blue">#3695f3</color> <!-- 蓝色 -->
+
+    <color name="transparent">#00000000</color>
 </resources>

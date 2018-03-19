@@ -35,7 +35,7 @@ public class CityListAdapter extends BaseQuickAdapter<ATestGoodMan, BaseViewHold
         } else {
             helper.setGone(R.id.tv_city_index, false);
         }
-        helper.setText(R.id.tv_city, item.getName());
+        helper.setText(R.id.tv_city_name, item.getName());
 
     }
 }
